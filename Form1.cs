@@ -91,7 +91,8 @@ namespace CertExpiration
                         .ContinueWith(t =>
                         {
                             progressBar1.Value++;
-                            results.Add(t.Result);
+                            var r = t.Result;
+                            dataGridView1.Rows.Add(new object[] { r.Url, r.ExpiresAt, r.ExpireDays, r.Expired, r.Timeout });
 
                         }, uiThread)
                         .Wait();
@@ -99,8 +100,6 @@ namespace CertExpiration
             })
             .ContinueWith(t =>
             {
-                foreach (var r in results)
-                    dataGridView1.Rows.Add(new object[] { r.Url, r.ExpiresAt, r.ExpireDays, r.Expired });
                 _btnCheck.Enabled = true;
 
             }, uiThread);

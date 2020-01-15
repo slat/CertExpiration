@@ -41,6 +41,7 @@
             this._colExpiresAt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._colExpireDays = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._colExpired = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this._colTimeout = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -68,8 +69,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(5);
-            this.splitContainer1.Size = new System.Drawing.Size(736, 283);
-            this.splitContainer1.SplitterDistance = 232;
+            this.splitContainer1.Size = new System.Drawing.Size(827, 283);
+            this.splitContainer1.SplitterDistance = 260;
             this.splitContainer1.TabIndex = 0;
             // 
             // groupBox1
@@ -80,7 +81,7 @@
             this.groupBox1.Location = new System.Drawing.Point(5, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox1.Size = new System.Drawing.Size(222, 273);
+            this.groupBox1.Size = new System.Drawing.Size(250, 273);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "URLs";
@@ -90,7 +91,7 @@
             this._rtbUrls.Dock = System.Windows.Forms.DockStyle.Fill;
             this._rtbUrls.Location = new System.Drawing.Point(8, 21);
             this._rtbUrls.Name = "_rtbUrls";
-            this._rtbUrls.Size = new System.Drawing.Size(206, 211);
+            this._rtbUrls.Size = new System.Drawing.Size(234, 211);
             this._rtbUrls.TabIndex = 0;
             this._rtbUrls.Text = "";
             // 
@@ -101,13 +102,13 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(8, 232);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(206, 33);
+            this.panel1.Size = new System.Drawing.Size(234, 33);
             this.panel1.TabIndex = 0;
             // 
             // _btnCheck
             // 
             this._btnCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnCheck.Location = new System.Drawing.Point(128, 5);
+            this._btnCheck.Location = new System.Drawing.Point(156, 5);
             this._btnCheck.Name = "_btnCheck";
             this._btnCheck.Size = new System.Drawing.Size(75, 23);
             this._btnCheck.TabIndex = 0;
@@ -123,7 +124,7 @@
             this.groupBox2.Location = new System.Drawing.Point(5, 5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox2.Size = new System.Drawing.Size(490, 273);
+            this.groupBox2.Size = new System.Drawing.Size(553, 273);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Results";
@@ -138,13 +139,14 @@
             this._colUrl,
             this._colExpiresAt,
             this._colExpireDays,
-            this._colExpired});
+            this._colExpired,
+            this._colTimeout});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(8, 21);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(474, 211);
+            this.dataGridView1.Size = new System.Drawing.Size(537, 211);
             this.dataGridView1.TabIndex = 0;
             // 
             // panel2
@@ -154,7 +156,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(8, 232);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(474, 33);
+            this.panel2.Size = new System.Drawing.Size(537, 33);
             this.panel2.TabIndex = 1;
             // 
             // progressBar1
@@ -163,7 +165,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(3, 6);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(467, 23);
+            this.progressBar1.Size = new System.Drawing.Size(530, 23);
             this.progressBar1.TabIndex = 0;
             // 
             // _colUrl
@@ -194,11 +196,18 @@
             this._colExpired.Name = "_colExpired";
             this._colExpired.ReadOnly = true;
             // 
+            // _colTimeout
+            // 
+            this._colTimeout.DataPropertyName = "Timeout";
+            this._colTimeout.HeaderText = "Timeout";
+            this._colTimeout.Name = "_colTimeout";
+            this._colTimeout.ReadOnly = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(736, 283);
+            this.ClientSize = new System.Drawing.Size(827, 283);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Text = "Cert Expiration Checker";
@@ -232,6 +241,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _colExpiresAt;
         private System.Windows.Forms.DataGridViewTextBoxColumn _colExpireDays;
         private System.Windows.Forms.DataGridViewCheckBoxColumn _colExpired;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn _colTimeout;
     }
 }
 

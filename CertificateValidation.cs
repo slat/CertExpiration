@@ -8,15 +8,30 @@ namespace CertExpiration
 {
     public class CertificateValidation
     {
+        private const int MaxMilliseconds = 5_000;
+
         public static CertificateValidationResult Validate(string url)
         {
             var task = Task.Factory.StartNew(() => GetCertificateExpiry(url));
-            task.Wait(1000);
+            var ms = 0;
+            var timeout = false;
+            while (!task.IsCompleted)
+            {
+                ms += 100;
+                task.Wait(100);
+
+                if (ms >= MaxMilliseconds)
+                {
+                    timeout = true;
+                    break;
+                }
+            }
 
             return new CertificateValidationResult
             {
                 Url = url,
                 ExpiresAt = task.IsCompleted ? task.Result : null,
+                Timeout = timeout,
             };
         }
 
@@ -52,5 +67,6 @@ namespace CertExpiration
         public DateTime? ExpiresAt { get; set; }
         public int? ExpireDays => ExpiresAt.HasValue ? (int?) (ExpiresAt.Value - DateTime.Now).TotalDays : null;
         public bool Expired => ExpiresAt.HasValue ? ExpiresAt.Value <= DateTime.Now : true;
+        public bool Timeout { get; set; }
     }
 }
