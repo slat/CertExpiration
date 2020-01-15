@@ -14,36 +14,37 @@ namespace CertExpiration
         {
             InitializeComponent();
 
+            Text += " v" + ProductVersion;
+
             dataGridView1.CellFormatting += DataGridView1_CellFormatting;
-            dataGridView1.DataBindingComplete += DataGridView1_DataBindingComplete;
-            dataGridView1.CellClick += DataGridView1_CellClick;
+            dataGridView1.CellContentClick += DataGridView1_CellContentClick;
 
             Load += Form1_Load;
         }
 
-        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
                 return;
 
-            if (e.ColumnIndex == 0)
-                Process.Start("chrome", dataGridView1[e.ColumnIndex, e.RowIndex].Value.ToString());
+            if (e.ColumnIndex == _colUrl.Index)
+            {
+                var url = dataGridView1[e.ColumnIndex, e.RowIndex].Value.ToString();
+                if (!url.StartsWith("https://") && !url.StartsWith("http://"))
+                    Process.Start("https://" + url);
+                else
+                    Process.Start("chrome", url);
+            }
         }
 
-        private void DataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            foreach (DataGridViewRow r in dataGridView1.Rows)
-                r.Cells[0] = new DataGridViewLinkCell();
-        }
-
-        private void DataGridView1_CellFormatting (object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dataGridView1.DataSource == null)
+            if (e.RowIndex < 0)
                 return;
 
-            var list = (List<CertificateValidationResult>)dataGridView1.DataSource;
-            if (list[e.RowIndex].Expired)
-                e.CellStyle.ForeColor = Color.Red;
+            var cell = dataGridView1[_colExpired.Index, e.RowIndex];
+            if ((bool) cell.Value)
+                e.CellStyle.BackColor = Color.Red;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -73,7 +74,7 @@ namespace CertExpiration
                 return;
 
             _btnCheck.Enabled = false;
-            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
 
             progressBar1.Minimum = 0;
             progressBar1.Maximum = urls.Length;
@@ -98,7 +99,8 @@ namespace CertExpiration
             })
             .ContinueWith(t =>
             {
-                dataGridView1.DataSource = results;
+                foreach (var r in results)
+                    dataGridView1.Rows.Add(new object[] { r.Url, r.ExpiresAt, r.ExpireDays, r.Expired });
                 _btnCheck.Enabled = true;
 
             }, uiThread);
